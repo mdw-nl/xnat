@@ -21,6 +21,7 @@ ARG TOMCAT_XNAT_FOLDER=${TOMCAT_XNAT_FOLDER}
 ARG TOMCAT_XNAT_FOLDER_PATH=${CATALINA_HOME}/webapps/${TOMCAT_XNAT_FOLDER}
 
 ADD make-xnat-config.sh /usr/local/bin/make-xnat-config.sh
+RUN chmod +x /usr/local/bin/make-xnat-config.sh
 ADD wait-for-postgres.sh /usr/local/bin/wait-for-postgres.sh
 ADD ./XNAT_conf /XNAT_conf
 COPY startup.sh /usr/local/bin/startup.sh
