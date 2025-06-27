@@ -22,6 +22,19 @@ ARG TOMCAT_XNAT_FOLDER_PATH=${CATALINA_HOME}/webapps/${TOMCAT_XNAT_FOLDER}
 
 ADD make-xnat-config.sh /usr/local/bin/make-xnat-config.sh
 ADD wait-for-postgres.sh /usr/local/bin/wait-for-postgres.sh
+ADD ./XNAT_conf /XNAT_conf
+COPY startup.sh /usr/local/bin/startup.sh
+RUN chmod +x /usr/local/bin/startup.sh
+
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip \
+    python3-setuptools \
+    && ln -sf /usr/bin/python3 /usr/bin/python \
+    && ln -sf /usr/bin/pip3 /usr/bin/pip
+
+
+RUN pip install requests
 
 RUN apt-get update && apt-get install -y postgresql-client wget 
 RUN rm -rf ${CATALINA_HOME}/webapps/*
@@ -47,5 +60,5 @@ EXPOSE 8080
 
 ENV XNAT_HOME=${XNAT_HOME} XNAT_DATASOURCE_USERNAME=${XNAT_DATASOURCE_USERNAME} PGPASSWORD=${XNAT_DATASOURCE_PASSWORD}
 
-CMD ["wait-for-postgres.sh", "/usr/local/tomcat/bin/catalina.sh", "run"]
-
+CMD ["/usr/local/bin/startup.sh"]
+# CMD ["wait-for-postgres.sh", "/usr/local/tomcat/bin/catalina.sh", "run", "python /XNAT_config/configure_XNAT.py"]
