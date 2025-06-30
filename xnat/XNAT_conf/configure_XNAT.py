@@ -3,7 +3,6 @@ from requests.auth import HTTPBasicAuth
 import json
 import xml.etree.ElementTree as ET
 
-
 """This class is made for when XNAT is booted up to automatically configure the whole site. The configure_site is there to setup the settings of the site.
 Configure_SCP is for automatically making the SCP receivers. The configure_project is for making the projects. If you would like to make different configurations
 you need to change the files in the XNAT_configure folder. It is important that AE title and the project id are the same."""

@@ -19,6 +19,7 @@ services:
         XNAT_ROOT: ${XNAT_ROOT}
         XNAT_HOME: ${XNAT_HOME}
         XNAT_EMAIL: ${XNAT_EMAIL}
+
     ports:
       - 8104:8104
     volumes:
@@ -61,4 +62,3 @@ services:
       - xnat-web
     links:
       - xnat-web
-
