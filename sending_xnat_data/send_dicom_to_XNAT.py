@@ -23,18 +23,17 @@ which means that if the data received has the same patient name and the same pat
 class sendDICOM:
     def __init__(self):
         self.xnat_url = "http://localhost:80"
-        self.root_folder = "short_anonimised_folder"
         self.username = "admin"
         self.password = "admin"
         
         
-    def adding_treatment_site(self, patient_ids: list, treatment_sites: list):
+    def adding_treatment_site(self, patient_ids: list, treatment_sites: list, data_folder):
         """Hardcode the treatment sides where we want filter on in the XNAT projects"""
         try:
             logging.info("Adding a fake treatment site to the dicom files to filter the projects.")
             
-            for ids, treatment_site, folder in zip(patient_ids, treatment_sites, os.listdir(self.root_folder)):
-                folder_path = os.path.join(self.root_folder, folder)
+            for ids, treatment_site, folder in zip(patient_ids, treatment_sites, os.listdir(data_folder)):
+                folder_path = os.path.join(data_folder, folder)
                 
                 for file in os.listdir(folder_path):
                     if file.endswith(".dcm"):
@@ -49,7 +48,7 @@ class sendDICOM:
         except Exception as e:
             logging.error(f"An error occurred adding the fake treatment site: {e}", exc_info=True)
             
-    def dicom_to_XNAT(self, ports):
+    def dicom_to_XNAT(self, ports, data_folder):
         """Send dicom data to the XNAT server"""
         try: 
             ae = AE()
@@ -57,8 +56,8 @@ class sendDICOM:
             self.dict_csv_radiomics = {}
             self.dict_patient_info = {}
 
-            for folder in os.listdir(self.root_folder):
-                folder_path = os.path.join(self.root_folder, folder)
+            for folder in os.listdir(data_folder):
+                folder_path = os.path.join(data_folder, folder)
                 
                 ds = dcmread(os.path.join(folder_path, os.listdir(folder_path)[0]))
                 treatment_site = ds.BodyPartExamined
@@ -102,11 +101,11 @@ class sendDICOM:
         response = requests.get(url, auth=HTTPBasicAuth(self.username, self.password))
         return response.status_code == 200
        
-    def upload_csv_to_xnat(self):
+    def upload_csv_to_xnat(self, data_folder):
         """send the radiomics csv to the correct project after the patient dicom data has been send."""
         try:
             for folder in self.dict_csv_radiomics:
-                folder_path = os.path.join(self.root_folder, folder)
+                folder_path = os.path.join(data_folder, folder)
                 csv_path = os.path.join(folder_path, self.dict_csv_radiomics[folder])
                      
                 project, subject, experiment = self.dict_patient_info[folder]
@@ -147,12 +146,12 @@ class sendDICOM:
         
         try:
             message_data = json.loads(body.decode("utf-8"))
-            self.data_folder = message_data.get('folder_path')
+            data_folder = message_data.get('folder_path')
 
-            self.adding_treatment_site(patient_ids, treatment_sites)
-            self.dicom_to_XNAT(ports)
-            self.upload_csv_to_xnat()
-            logging.info(f"Send data from: {self.data_folder}")
+            self.adding_treatment_site(patient_ids, treatment_sites, data_folder)
+            self.dicom_to_XNAT(ports, data_folder)
+            self.upload_csv_to_xnat(data_folder)
+            logging.info(f"Send data from: {data_folder}")
 
         except Exception as e:
             logging.error(f"An error occurred in the run method: {e}", exc_info=True)
