@@ -169,7 +169,7 @@ if __name__ == "__main__":
     # xnat_pipeline.dicom_to_XNAT(ports)
     # xnat_pipeline.upload_csv_to_xnat()
     
-    rabbitMQ_config = Config("rabbitMQxnat")
+    rabbitMQ_config = Config("xnat")
     cons = Consumer(rmq_config=rabbitMQ_config)
     cons.open_connection_rmq()
     engine = sendDICOM()
