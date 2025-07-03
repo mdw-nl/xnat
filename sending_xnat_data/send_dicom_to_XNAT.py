@@ -163,21 +163,21 @@ class sendDICOM:
             logging.error(f"An error occurred in the run method: {e}", exc_info=True)
         
 if __name__ == "__main__":
-    treatment_sites = {"Tom": "LUNG", "Tim": "KIDNEY"}
-    ports = {
-            "LUNG": {"Title": "LUNG", "Port": 8104},
-            "KIDNEY": {"Title": "KIDNEY", "Port": 8104}
-    }
+    # treatment_sites = {"Tom": "LUNG", "Tim": "KIDNEY"}
+    # ports = {
+    #         "LUNG": {"Title": "LUNG", "Port": 8104},
+    #         "KIDNEY": {"Title": "KIDNEY", "Port": 8104}
+    # }
     
-    data_folder = "anonimised_data"
+    # data_folder = "anonimised_data"
     
-    xnat_pipeline = sendDICOM()
-    xnat_pipeline.adding_treatment_site(treatment_sites, data_folder)
-    xnat_pipeline.dicom_to_XNAT(ports, data_folder)
-    xnat_pipeline.upload_csv_to_xnat(data_folder)
+    # xnat_pipeline = sendDICOM()
+    # xnat_pipeline.adding_treatment_site(treatment_sites, data_folder)
+    # xnat_pipeline.dicom_to_XNAT(ports, data_folder)
+    # xnat_pipeline.upload_csv_to_xnat(data_folder)
     
-    # rabbitMQ_config = Config("xnat")
-    # cons = Consumer(rmq_config=rabbitMQ_config)
-    # cons.open_connection_rmq()
-    # engine = sendDICOM()
-    # cons.start_consumer(callback=engine.run)
+    rabbitMQ_config = Config("xnat")
+    cons = Consumer(rmq_config=rabbitMQ_config)
+    cons.open_connection_rmq()
+    engine = sendDICOM()
+    cons.start_consumer(callback=engine.run)
