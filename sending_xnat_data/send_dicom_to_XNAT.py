@@ -35,9 +35,9 @@ class sendDICOM:
                    
             for file in os.listdir(data_folder):
                 if file.endswith(".dcm"):
+                    file_path = os.path.join(data_folder, file)
                     ds = dcmread(file_path)
                     treatment_site = treatment_sites[ds.PatientID]
-                    file_path = os.path.join(data_folder, file)
                     ds.BodyPartExamined  = treatment_site
                     ds.save_as(file_path)
             
