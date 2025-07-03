@@ -22,7 +22,7 @@ which means that if the data received has the same patient name and the same pat
 
 class sendDICOM:
     def __init__(self):
-        self.xnat_url = "http://localhost:80"
+        self.xnat_url = "http://digione-infrastructure-xnat-nginx-1:80"
         self.username = "admin"
         self.password = "admin"
         self.csv_radiomics = None
@@ -163,17 +163,18 @@ class sendDICOM:
             logging.error(f"An error occurred in the run method: {e}", exc_info=True)
         
 if __name__ == "__main__":
-    # patient_ids = ["Tom", "Tim"]
-    # treatment_sites = ["LUNG", "KIDNEY"]
+    # treatment_sites = {"Tom": "LUNG", "Tim": "KIDNEY"}
     # ports = {
-    #     "LUNG": {"Title": "LUNG", "Port": 8104},
-    #     "KIDNEY": {"Title": "KIDNEY", "Port": 8104}
+    #         "LUNG": {"Title": "LUNG", "Port": 8104},
+    #         "KIDNEY": {"Title": "KIDNEY", "Port": 8104}
     # }
     
+    # data_folder = "anonimised_data"
+    
     # xnat_pipeline = sendDICOM()
-    # xnat_pipeline.adding_treatment_site(patient_ids, treatment_sites)
-    # xnat_pipeline.dicom_to_XNAT(ports)
-    # xnat_pipeline.upload_csv_to_xnat()
+    # xnat_pipeline.adding_treatment_site(treatment_sites, data_folder)
+    # xnat_pipeline.dicom_to_XNAT(ports, data_folder)
+    # xnat_pipeline.upload_csv_to_xnat(data_folder)
     
     rabbitMQ_config = Config("xnat")
     cons = Consumer(rmq_config=rabbitMQ_config)
