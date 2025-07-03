@@ -1,4 +1,4 @@
-rabbitMQxnat:
+xnat:
   host: "rabbitmq"
   localhost: "localhost"
   port: "5672"
