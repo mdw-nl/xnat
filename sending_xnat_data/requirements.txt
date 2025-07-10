@@ -1,5 +1,0 @@
-pydicom
-pynetdicom
-requests
-pyyaml
-pika

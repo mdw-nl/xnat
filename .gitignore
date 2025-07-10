@@ -23,5 +23,5 @@ xnat/webapps
 
 sending_xnat_data/short_anonimised_folder
 
-sending_xnat_data/venv
-sending_xnat_data/anonimised_data
+send_xnat_data/venv
+send_xnat_data/anonimised_data
