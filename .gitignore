@@ -21,7 +21,3 @@ xnat/webapps
 *.env
 !default.env
 
-sending_xnat_data/short_anonimised_folder
-
-send_xnat_data/venv
-send_xnat_data/anonimised_data

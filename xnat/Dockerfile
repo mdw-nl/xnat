@@ -26,7 +26,6 @@ ADD ./XNAT_conf /XNAT_conf
 COPY startup.sh /usr/local/bin/startup.sh
 RUN chmod +x /usr/local/bin/startup.sh
 
-
 RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip \
@@ -51,8 +50,8 @@ RUN mkdir -p \
         ${XNAT_ROOT}/ftp \
         ${XNAT_ROOT}/pipeline \
         ${XNAT_ROOT}/prearchive
-RUN chmod +x /usr/local/bin/make-xnat-config.sh
-RUN  rm /usr/local/bin/make-xnat-config.sh
+RUN /usr/local/bin/make-xnat-config.sh
+RUN rm /usr/local/bin/make-xnat-config.sh
 RUN wget --no-verbose --output-document=/tmp/xnat-web-${XNAT_VERSION}.war https://api.bitbucket.org/2.0/repositories/xnatdev/xnat-web/downloads/xnat-web-${XNAT_VERSION}.war
 RUN unzip -o -d ${TOMCAT_XNAT_FOLDER_PATH} /tmp/xnat-web-${XNAT_VERSION}.war
 RUN rm -f /tmp/xnat-web-${XNAT_VERSION}.war
