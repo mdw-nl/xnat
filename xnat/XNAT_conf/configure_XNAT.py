@@ -48,11 +48,14 @@ class XNAT_configure:
             print("Status projects:", response.status_code)
             
     def configure_DICOM_routing(self, routing_path, routing_url, username, password):
-        with open(routing_path, "r") as json_data:
-            routing_data = json.load(json_data)
-        
-        response = requests.put(routing_url, json=routing_data, headers=self.json_headers, auth=HTTPBasicAuth(username, password))
-        print("Status custom DICOM routing:", response.status_code)
+        with open(routing_path, "r") as file:
+            routing_data = json.load(file)
+            
+        rule = routing_data["contents"]
+
+        headers = {"Content-Type": "text/plain"}
+        response = requests.put(routing_url, data=rule, headers=headers, auth=HTTPBasicAuth(username, password))
+        print("Status custom DICOM routing:", response.status_code, response.text)
 
 if __name__ == "__main__":
     SCP_url = "http://localhost:8080/xapi/dicomscp"
