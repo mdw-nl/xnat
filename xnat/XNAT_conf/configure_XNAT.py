@@ -47,11 +47,11 @@ class XNAT_configure:
             response = requests.post(project_url, data=project_data, headers=self.project_headers, auth=HTTPBasicAuth(username, password))
             print("Status projects:", response.status_code)
             
-    def configure_DICOM_routing(self, routing_path, routing_url, usern, password):
-        with open(site_setup_path, "r") as json_data:
-            site_data = json.load(json_data)
+    def configure_DICOM_routing(self, routing_path, routing_url, username, password):
+        with open(routing_path, "r") as json_data:
+            routing_data = json.load(json_data)
         
-        response = requests.put(site_url, json=site_data, headers=self.json_headers, auth=HTTPBasicAuth(username, password))
+        response = requests.put(routing_url, json=routing_data, headers=self.json_headers, auth=HTTPBasicAuth(username, password))
         print("Status site-setup:", response.status_code)
 
 if __name__ == "__main__":
@@ -63,7 +63,7 @@ if __name__ == "__main__":
     SCP_receiver_path = "/XNAT_conf/XNAT_configure/SCP_receiver.json"
     project_path = "/XNAT_conf/XNAT_configure/project.xml"
     site_setup_path = "/XNAT_conf/XNAT_configure/site_setup.json"
-    DICOM_routin_path = "XNAT_conf/XNAT_configure/DICOM_routing.json"
+    DICOM_routing_path = "XNAT_conf/XNAT_configure/DICOM_routing.json"
     
     username = "admin"
     password = "admin"
@@ -72,3 +72,4 @@ if __name__ == "__main__":
     configure.configure_site(site_setup_path, site_url, username, password)
     configure.configure_SCP(SCP_receiver_path, SCP_url, username, password)
     configure.configure_project(project_path, project_url, username, password)
+    configure.configure_DICOM_routing(DICOM_routing_path, DICOM_routing_url, username, password)
