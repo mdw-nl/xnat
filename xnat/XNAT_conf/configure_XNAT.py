@@ -52,7 +52,7 @@ class XNAT_configure:
             routing_data = json.load(json_data)
         
         response = requests.put(routing_url, json=routing_data, headers=self.json_headers, auth=HTTPBasicAuth(username, password))
-        print("Status site-setup:", response.status_code)
+        print("Status custom DICOM routing:", response.status_code)
 
 if __name__ == "__main__":
     SCP_url = "http://localhost:8080/xapi/dicomscp"
@@ -63,7 +63,7 @@ if __name__ == "__main__":
     SCP_receiver_path = "/XNAT_conf/XNAT_configure/SCP_receiver.json"
     project_path = "/XNAT_conf/XNAT_configure/project.xml"
     site_setup_path = "/XNAT_conf/XNAT_configure/site_setup.json"
-    DICOM_routing_path = "XNAT_conf/XNAT_configure/DICOM_routing.json"
+    DICOM_routing_path = "/XNAT_conf/XNAT_configure/DICOM_routing.json"
     
     username = "admin"
     password = "admin"
