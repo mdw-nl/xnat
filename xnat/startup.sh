@@ -11,6 +11,8 @@ until curl -s http://localhost:8080 > /dev/null; do
     sleep 2
 done
 
+sleep 30
+
 echo "Running XNAT configuration..."
 python /XNAT_conf/configure_XNAT.py
 

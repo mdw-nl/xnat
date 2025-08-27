@@ -46,15 +46,24 @@ class XNAT_configure:
             project_data = ET.tostring(project, encoding='unicode')
             response = requests.post(project_url, data=project_data, headers=self.project_headers, auth=HTTPBasicAuth(username, password))
             print("Status projects:", response.status_code)
+            
+    def configure_DICOM_routing(self, routing_path, routing_url, usern, password):
+        with open(site_setup_path, "r") as json_data:
+            site_data = json.load(json_data)
+        
+        response = requests.put(site_url, json=site_data, headers=self.json_headers, auth=HTTPBasicAuth(username, password))
+        print("Status site-setup:", response.status_code)
 
 if __name__ == "__main__":
     SCP_url = "http://localhost:8080/xapi/dicomscp"
     project_url = "http://localhost:8080/data/projects"
     site_url = "http://localhost:8080/xapi/siteConfig"
+    DICOM_routing_url = "http://localhost/data/config/dicom/sessionRules"
     
     SCP_receiver_path = "/XNAT_conf/XNAT_configure/SCP_receiver.json"
     project_path = "/XNAT_conf/XNAT_configure/project.xml"
     site_setup_path = "/XNAT_conf/XNAT_configure/site_setup.json"
+    DICOM_routin_path = "XNAT_conf/XNAT_configure/DICOM_routing.json"
     
     username = "admin"
     password = "admin"
