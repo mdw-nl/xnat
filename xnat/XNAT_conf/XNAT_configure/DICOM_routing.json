@@ -1,3 +1,4 @@
 {
-    "contents": "(0020,000D):(.+)"
+    "contents": "(0020,000D):(.+)",
+    "status": "enabled"
     }
