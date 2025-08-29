@@ -55,21 +55,21 @@ class XNAT_configure:
         print("Status custom DICOM routing:", response.status_code)
 
 if __name__ == "__main__":
-    SCP_url = "http://localhost:8080/xapi/dicomscp"
+    scp_url = "http://localhost:8080/xapi/dicomscp"
     project_url = "http://localhost:8080/data/projects"
     site_url = "http://localhost:8080/xapi/siteConfig"
-    DICOM_routing_url = "http://localhost:8080/data/config/dicom/sessionRules"
+    dicom_routing_url = "http://localhost:8080/data/config/dicom/sessionRules"
     
-    SCP_receiver_path = "/XNAT_conf/XNAT_configure/SCP_receiver.json"
+    scp_receiver_path = "/XNAT_conf/XNAT_configure/SCP_receiver.json"
     project_path = "/XNAT_conf/XNAT_configure/project.xml"
     site_setup_path = "/XNAT_conf/XNAT_configure/site_setup.json"
-    DICOM_routing_path = "/XNAT_conf/XNAT_configure/DICOM_routing.json"
+    dicom_routing_path = "/XNAT_conf/XNAT_configure/DICOM_routing.json"
     
     username = "admin"
     password = "admin"
 
     configure = XNAT_configure()
     configure.configure_site(site_setup_path, site_url, username, password)
-    configure.configure_SCP(SCP_receiver_path, SCP_url, username, password)
+    configure.configure_SCP(scp_receiver_path, scp_url, username, password)
     configure.configure_project(project_path, project_url, username, password)
-    configure.configure_DICOM_routing(DICOM_routing_path, DICOM_routing_url, username, password)
+    configure.configure_DICOM_routing(dicom_routing_path, dicom_routing_url, username, password)
