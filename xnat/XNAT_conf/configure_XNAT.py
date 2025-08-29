@@ -49,7 +49,7 @@ class XNAT_configure:
             print("Status projects:", response.status_code)
             
     def configure_DICOM_routing(self, routing_path, routing_url, username, password):
-        
+        print("yaaaahhhahhhhhh")
         while True:
             try:
                 check_url = requests.get(routing_url, auth=HTTPBasicAuth(username, password))
