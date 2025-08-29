@@ -49,7 +49,7 @@ class XNAT_configure:
             print("Status projects:", response.status_code)
             
     def configure_DICOM_routing(self, routing_path, routing_url, username, password):
-        print("yaaaahhhahhhhhh")
+        print("executeing configure_DICOM_routing")
         while True:
             try:
                 check_url = requests.get(routing_url, auth=HTTPBasicAuth(username, password))
@@ -90,4 +90,5 @@ if __name__ == "__main__":
     configure.configure_site(site_setup_path, site_url, username, password)
     configure.configure_SCP(scp_receiver_path, scp_url, username, password)
     configure.configure_project(project_path, project_url, username, password)
+    print("Calling configure_DICOM_routing now...")
     configure.configure_DICOM_routing(dicom_routing_path, dicom_routing_url, username, password)
