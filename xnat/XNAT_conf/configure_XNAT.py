@@ -49,22 +49,6 @@ class XNAT_configure:
             print("Status projects:", response.status_code)
             
     def configure_DICOM_routing(self, routing_path, routing_url, username, password):
-        print("executeing configure_DICOM_routing")
-        while True:
-            try:
-                check_url = requests.get(routing_url, auth=HTTPBasicAuth(username, password))
-                if check_url.status_code == 200:
-                    print("XNAT routing endpoint is ready")
-                    break
-                else:
-                    print("XNAT routing endpoint is not yet ready")
-                    time.sleep(5)
-                    
-            except requests.exceptions.RequestException as e:
-                print(f"XNAT not reachable yet: {e}")
-                
-            time.sleep(10)
-        
         with open(routing_path, "r") as json_data:
             routing_data = json.load(json_data)
         
@@ -90,5 +74,4 @@ if __name__ == "__main__":
     configure.configure_site(site_setup_path, site_url, username, password)
     configure.configure_SCP(scp_receiver_path, scp_url, username, password)
     configure.configure_project(project_path, project_url, username, password)
-    print("Calling configure_DICOM_routing now...")
     configure.configure_DICOM_routing(dicom_routing_path, dicom_routing_url, username, password)
