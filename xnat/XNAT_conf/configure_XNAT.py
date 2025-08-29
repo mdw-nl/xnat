@@ -51,14 +51,14 @@ class XNAT_configure:
         with open(routing_path, "r") as json_data:
             routing_data = json.load(json_data)
         
-        response = requests.put(routing_url, json=routing_data, headers=self.json_headers, auth=HTTPBasicAuth(username, password))
+        response = requests.post(routing_url, json=routing_data, headers=self.json_headers, auth=HTTPBasicAuth(username, password))
         print("Status custom DICOM routing:", response.status_code)
 
 if __name__ == "__main__":
     scp_url = "http://localhost:8080/xapi/dicomscp"
     project_url = "http://localhost:8080/data/projects"
     site_url = "http://localhost:8080/xapi/siteConfig"
-    dicom_routing_url = "http://localhost:8080/data/config/dicom/sessionRules"
+    dicom_routing_url = "http://localhost/data/config/dicom/sessionRules"
     
     scp_receiver_path = "/XNAT_conf/XNAT_configure/SCP_receiver.json"
     project_path = "/XNAT_conf/XNAT_configure/project.xml"
