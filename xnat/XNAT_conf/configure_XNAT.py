@@ -2,6 +2,7 @@ import requests
 from requests.auth import HTTPBasicAuth
 import json
 import xml.etree.ElementTree as ET
+import time
 
 """This class is made for when XNAT is booted up to automatically configure the whole site. The configure_site is there to setup the settings of the site.
 Configure_SCP is for automatically making the SCP receivers. The configure_project is for making the projects. If you would like to make different configurations
@@ -48,11 +49,28 @@ class XNAT_configure:
             print("Status projects:", response.status_code)
             
     def configure_DICOM_routing(self, routing_path, routing_url, username, password):
+        
+        while True:
+            try:
+                check_url = requests.get(routing_url, auth=HTTPBasicAuth(username, password))
+                if check_url.status_code == 200:
+                    print("XNAT routing endpoint is ready")
+                    break
+                else:
+                    print("XNAT routing endpoint is not yet ready")
+                    time.sleep(5)
+                    
+            except requests.exceptions.RequestException as e:
+                print(f"XNAT not reachable yet: {e}")
+                
+            time.sleep(10)
+        
         with open(routing_path, "r") as json_data:
             routing_data = json.load(json_data)
         
-        response = requests.post(routing_url, json=routing_data, headers=self.json_headers, auth=HTTPBasicAuth(username, password))
+        response = requests.put(routing_url, json=routing_data, headers=self.json_headers, auth=HTTPBasicAuth(username, password))
         print("Status custom DICOM routing:", response.status_code)
+        print("Response body:", response.text)
 
 if __name__ == "__main__":
     scp_url = "http://localhost:8080/xapi/dicomscp"
