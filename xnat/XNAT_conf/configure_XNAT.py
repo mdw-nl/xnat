@@ -60,7 +60,7 @@ if __name__ == "__main__":
     scp_url = "http://localhost:8080/xapi/dicomscp"
     project_url = "http://localhost:8080/data/projects"
     site_url = "http://localhost:8080/xapi/siteConfig"
-    dicom_routing_url = "http://localhost/data/config/dicom/sessionRules"
+    dicom_routing_url = "http://localhost:8080/data/config/dicom/sessionRules"
     
     scp_receiver_path = "/XNAT_conf/XNAT_configure/SCP_receiver.json"
     project_path = "/XNAT_conf/XNAT_configure/project.xml"

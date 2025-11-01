@@ -1,4 +1,4 @@
-FROM tomcat:9-jdk8-openjdk-buster
+FROM tomcat:9-jdk8-openjdk-bullseye
 MAINTAINER Matt Kelsey <kelseym@wustl.edu>
 
 ARG XNAT_VERSION=${XNAT_VERSION}
