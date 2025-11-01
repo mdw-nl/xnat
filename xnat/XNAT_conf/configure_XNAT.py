@@ -3,6 +3,7 @@ from requests.auth import HTTPBasicAuth
 import json
 import xml.etree.ElementTree as ET
 import time
+import yaml
 
 """This class is made for when XNAT is booted up to automatically configure the whole site. The configure_site is there to setup the settings of the site.
 Configure_SCP is for automatically making the SCP receivers. The configure_project is for making the projects. If you would like to make different configurations
@@ -10,7 +11,7 @@ you need to change the files in the XNAT_configure folder. It is important that 
 
 class XNAT_configure:
 
-    def __init__(self):
+    def __init__(self):        
         self.json_headers = {"Content-Type": "application/json"}
         self.project_headers = {"Content-Type": "application/xml"}
         
@@ -70,10 +71,13 @@ class XNAT_configure:
         print("Status custom DICOM routing:", response.status_code)
 
 if __name__ == "__main__":
-    scp_url = "http://localhost:80/xapi/dicomscp"
-    project_url = "http://localhost:80/data/projects"
-    site_url = "http://localhost:80/xapi/siteConfig"
-    dicom_routing_url = "http://localhost:80/data/config/dicom/sessionRules"
+    with open("XNAT_configure/urls.yaml", "r") as file:
+        config = yaml.safe_load(file)
+            
+    scp_url = config["scp_url"]
+    project_url = config["project_url"]
+    site_url = config["site_url"]
+    dicom_routing_url = config["dicom_routing_url"]
     
     scp_receiver_path = "XNAT_configure/SCP_receiver.json"
     project_path = "XNAT_configure/project.xml"

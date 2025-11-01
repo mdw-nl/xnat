@@ -34,7 +34,9 @@ RUN apt-get update && apt-get install -y \
     && ln -sf /usr/bin/pip3 /usr/bin/pip
 
 
-RUN pip install requests
+
+COPY requirements.txt /tmp/requirements.txt
+RUN pip install -r /tmp/requirements.txt
 
 RUN apt-get update && apt-get install -y postgresql-client wget 
 RUN rm -rf ${CATALINA_HOME}/webapps/*
