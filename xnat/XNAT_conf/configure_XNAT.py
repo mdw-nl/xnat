@@ -13,6 +13,20 @@ class XNAT_configure:
     def __init__(self):
         self.json_headers = {"Content-Type": "application/json"}
         self.project_headers = {"Content-Type": "application/xml"}
+        
+    def wait_for_site_config(self, site_url, username, password, retries=20, delay=5):
+        """Check if the site is ready for the XNAT commands"""
+        for i in range(retries):
+            try:
+                r = requests.get(site_url, auth=HTTPBasicAuth(username, password))
+                if r.status_code == 200:
+                    print("Site API is ready")
+                    return True
+            except requests.exceptions.ConnectionError:
+                pass
+            print(f"Site API not ready, retry {i+1}/{retries}, waiting {delay}s...")
+            time.sleep(delay)
+        raise RuntimeError("XNAT site API never became ready")
 
     def configure_site(self, site_setup_path, site_url, username, password):
         
@@ -57,10 +71,10 @@ class XNAT_configure:
         print("Response body:", response.text)
 
 if __name__ == "__main__":
-    scp_url = "http://localhost:8104/xapi/dicomscp"
-    project_url = "http://localhost:8104/data/projects"
-    site_url = "http://localhost:8104/xapi/siteConfig"
-    dicom_routing_url = "http://localhost:8104/data/config/dicom/sessionRules"
+    scp_url = "http://localhost:8080/xapi/dicomscp"
+    project_url = "http://localhost:8080/data/projects"
+    site_url = "http://localhost:8080/xapi/siteConfig"
+    dicom_routing_url = "http://localhost:8080/data/config/dicom/sessionRules"
     
     scp_receiver_path = "/XNAT_conf/XNAT_configure/SCP_receiver.json"
     project_path = "/XNAT_conf/XNAT_configure/project.xml"
@@ -71,6 +85,7 @@ if __name__ == "__main__":
     password = "admin"
 
     configure = XNAT_configure()
+    configure.wait_for_site_config(site_url, username, password)
     configure.configure_site(site_setup_path, site_url, username, password)
     configure.configure_SCP(scp_receiver_path, scp_url, username, password)
     configure.configure_project(project_path, project_url, username, password)
