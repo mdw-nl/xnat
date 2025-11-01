@@ -17,14 +17,19 @@ class XNAT_configure:
         
     def wait_for_site_config(self, site_url, username, password, retries=20, delay=5):
         """Check if the site is ready for the XNAT commands"""
-        for i in range(retries):
+        for i in range(int(retries)):
             try:
                 r = requests.get(site_url, auth=HTTPBasicAuth(username, password))
                 if r.status_code == 200:
-                    print("Site API is ready")
-                    return True
-            except requests.exceptions.ConnectionError:
+                    test = requests.put(site_url, json={}, auth=HTTPBasicAuth(username, password))
+                    
+                    if test.status_code not in [401, 403]:
+                        print("Site API is ready for configuration")
+                        return True
+                    
+            except requests.exceptions.RequestException:
                 pass
+            
             print(f"Site API not ready, retry {i+1}/{retries}, waiting {delay}s...")
             time.sleep(delay)
         raise RuntimeError("XNAT site API never became ready")
