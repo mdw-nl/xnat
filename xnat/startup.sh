@@ -6,12 +6,16 @@ echo "Starting..."
 
 TOMCAT_PID=$!
 
-until curl -s http://localhost:8080 > /dev/null; do
+until curl -s http://localhost:8104 > /dev/null; do
     echo "Waiting for Tomcat to become available..."
     sleep 2
 done
 
-sleep 30
+XNAT_URL="http://localhost:8104/xapi/siteConfig"
+until curl -s -o /dev/null -w "%{http_code}" $XNAT_URL | grep -q "200"; do
+    echo "Waiting for XNAT to finish initialization..."
+    sleep 2
+done
 
 echo "Running XNAT configuration..."
 python /XNAT_conf/configure_XNAT.py
