@@ -1,4 +1,4 @@
-scp_url: "http://localhost:80/xapi/dicomscp"
-project_url: "http://localhost:80/data/projects"
-site_url: "http://localhost:80/xapi/siteConfig"
-dicom_routing_url: "http://localhost:80/data/config/dicom/sessionRules"
+scp_url: "http://localhost:8080/xapi/dicomscp"
+project_url: "http://localhost:8080/data/projects"
+site_url: "http://localhost:8080/xapi/siteConfig"
+dicom_routing_url: "http://localhost:8080/data/config/dicom/sessionRules"

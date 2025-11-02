@@ -30,7 +30,7 @@ class XNAT_configure:
             except requests.exceptions.RequestException:
                 pass
             
-            print(f"Site API not ready, retry {i+1}/{retries}, waiting {delay}s...")
+            print(f"Site API not ready, retry, waiting {delay}s...")
             time.sleep(delay)
         raise RuntimeError("XNAT site API never became ready")
 
@@ -76,7 +76,7 @@ class XNAT_configure:
         print("Status custom DICOM routing:", response.status_code)
 
 if __name__ == "__main__":
-    with open("XNAT_configure/urls.yaml", "r") as file:
+    with open("/XNAT_conf/XNAT_configure//urls.yaml", "r") as file:
         config = yaml.safe_load(file)
             
     scp_url = config["scp_url"]
@@ -84,10 +84,10 @@ if __name__ == "__main__":
     site_url = config["site_url"]
     dicom_routing_url = config["dicom_routing_url"]
     
-    scp_receiver_path = "XNAT_configure/SCP_receiver.json"
-    project_path = "XNAT_configure/project.xml"
-    site_setup_path = "XNAT_configure/site_setup.json"
-    dicom_routing_path = "XNAT_configure/DICOM_routing.json"
+    scp_receiver_path = "/XNAT_conf/XNAT_configure/SCP_receiver.json"
+    project_path = "/XNAT_conf/XNAT_configure/project.xml"
+    site_setup_path = "/XNAT_conf/XNAT_configure/site_setup.json"
+    dicom_routing_path = "/XNAT_conf/XNAT_configure/DICOM_routing.json"
     
     username = "admin"
     password = "admin"
