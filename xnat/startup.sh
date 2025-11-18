@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+source /opt/default.env
 echo "Starting..."
 
 /usr/local/bin/wait-for-postgres.sh /usr/local/tomcat/bin/catalina.sh run &

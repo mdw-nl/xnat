@@ -1,6 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 
-# generate xnat config
+set -e
+source /opt/default.env
+
 if [ ! -f $XNAT_HOME/config/xnat-conf.properties ]; then
   cat > $XNAT_HOME/config/xnat-conf.properties << EOF
 datasource.driver=$XNAT_DATASOURCE_DRIVER
