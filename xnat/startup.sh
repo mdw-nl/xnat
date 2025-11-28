@@ -7,7 +7,7 @@ echo "Starting..."
 
 TOMCAT_PID=$!
 
-until curl -s http://localhost:8080 > /dev/null; do
+until curl -s http://xnat-web:8080 > /dev/null; do
     echo "Waiting for Tomcat to become available..."
     sleep 2
 done

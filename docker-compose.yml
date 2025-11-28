@@ -21,6 +21,7 @@ services:
         XNAT_EMAIL: ${XNAT_EMAIL}
 
     ports:
+      - 8080:8080
       - 8104:8104
     volumes:
       - ./xnat/plugins:${XNAT_HOME}/plugins
@@ -49,16 +50,3 @@ services:
       # variables for the sql script
       - XNAT_DATASOURCE_USERNAME=${XNAT_DATASOURCE_USERNAME}
       - XNAT_DATASOURCE_PASSWORD=${XNAT_DATASOURCE_PASSWORD}
-
-  xnat-nginx:
-    image: nginx:${NGINX_VERSION}
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-    ports:
-      - "80:80"
-    expose:
-      - "80"
-    depends_on:
-      - xnat-web
-    links:
-      - xnat-web
